@@ -1,0 +1,25 @@
+rescript = 1
+g_finger := /home/bvihjcep/Projects/react-query/examples/node_modules/@rescript/react/lib/ocaml/install.stamp
+g_finger := /home/bvihjcep/Projects/react-query/examples/node_modules/bs-fetch/lib/ocaml/install.stamp
+g_finger := /home/bvihjcep/Projects/react-query/examples/node_modules/decco/lib/ocaml/install.stamp
+rule astj
+  command = /home/bvihjcep/Projects/react-query/examples/node_modules/bs-platform/linux/bsc.exe  -bs-v 8.4.2,1618982874.42 -ppx /home/bvihjcep/Projects/react-query/examples/node_modules/decco/ppx -bs-jsx 3  -absname -bs-ast -o $out $i
+o src/App.ast : astj ../../src/App.res
+rule deps
+  command = /home/bvihjcep/Projects/react-query/examples/node_modules/bs-platform/linux/bsb_helper.exe -hash cedd2edb120f61fc7fb43cfd114bb2dd $in
+  restat = 1
+o src/App.d : deps src/App.ast
+rule mij
+  command = /home/bvihjcep/Projects/react-query/examples/node_modules/bs-platform/linux/bsc.exe -I src/bindings -I src -I /home/bvihjcep/Projects/react-query/examples/node_modules/@rescript/react/lib/ocaml -I /home/bvihjcep/Projects/react-query/examples/node_modules/bs-fetch/lib/ocaml -I /home/bvihjcep/Projects/react-query/examples/node_modules/decco/lib/ocaml   -bs-package-name examples -bs-package-output es6:$in_d:.bs.js -bs-v $g_finger $i
+  dyndep = 1
+  restat = 1
+o src/App.cmj src/App.cmi ../../src/App.bs.js : mij src/App.ast
+o src/index.ast : astj ../../src/index.res
+o src/index.d : deps src/index.ast
+o src/index.cmj src/index.cmi ../../src/index.bs.js : mij src/index.ast
+o src/bindings/ReactQuery.ast : astj ../../src/bindings/ReactQuery.res
+o src/bindings/ReactQuery.d : deps src/bindings/ReactQuery.ast
+o src/bindings/ReactQuery.cmj src/bindings/ReactQuery.cmi ../../src/bindings/ReactQuery.bs.js : mij src/bindings/ReactQuery.ast
+o src/bindings/ReactQuery_Query.ast : astj ../../src/bindings/ReactQuery_Query.res
+o src/bindings/ReactQuery_Query.d : deps src/bindings/ReactQuery_Query.ast
+o src/bindings/ReactQuery_Query.cmj src/bindings/ReactQuery_Query.cmi ../../src/bindings/ReactQuery_Query.bs.js : mij src/bindings/ReactQuery_Query.ast
