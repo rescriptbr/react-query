@@ -22,4 +22,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+.bsb.lock
+.merlin
+
 /examples/lib
