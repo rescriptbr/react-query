@@ -1,6 +1,7 @@
 type queryClient
 
-module Query = ReactQuery_Query
+include ReactQuery_Query
+include ReactQuery_Utils
 
 module Provider = {
   @new @module("react-query")

@@ -1,27 +1,39 @@
 module Promise = Js.Promise
 
-@decco
-type todo = {title: string}
+type todo = {
+  completed: bool,
+  id: int,
+  title: string,
+  userId: int,
+}
 
-module TodoQuery = ReactQuery.Query.Make({
-  type queryKey = string
-  type data = todo
-  type error = string
-  type decodeError = Decco.decodeError
-  let decoder = todo_decode
-})
+module Decode = {
+  open Json.Decode
+  let todo = json => {
+    completed: field("completed", bool, json),
+    id: field("id", int, json),
+    title: field("title", string, json),
+    userId: field("userId", int, json),
+  }
+}
 
-let fetchTodo = _ =>
-  Fetch.fetch("https://jsonplaceholder.typicode.com/todos/1") |> Promise.then_(Fetch.Response.json)
+let fetchTodo = id =>
+  j`https://jsonplaceholder.typicode.com/todos/$id`
+  ->Fetch.fetch
+  ->Promise.then_(Fetch.Response.json, _)
+  ->Promise.then_(value => Promise.resolve(Decode.todo(value)), _)
 
 @react.component
 let make = () => {
-  let (result, _) = TodoQuery.useQuery(~queryKey="/todos/1", ~queryFn=fetchTodo, ())
+  let result = ReactQuery.useQueries([
+    ReactQuery.queryOptions(~queryKey="/todo-1", ~queryFn=_ => fetchTodo(1), ()),
+    ReactQuery.queryOptions(~queryKey="/todo-2", ~queryFn=_ => fetchTodo(2), ()),
+  ])
 
-  <div>
-    {switch result {
-    | Error(_) => <div> {React.string("Loading...")} </div>
-    | _ => <div> {React.string("Whatever....")} </div>
-    }}
-  </div>
+  switch result {
+  | [{data: Some(value)}, {data: Some(value2)}] => Js.log2(value, value2)
+  | _ => Js.log("caboom!")
+  }
+
+  <div />
 }
