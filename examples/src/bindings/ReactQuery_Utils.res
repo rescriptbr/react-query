@@ -1,41 +1,48 @@
-module Query = ReactQuery_Query
-external unwrap: 'a => 'b = "%identity"
-
-let retry: Query.retryParam<'queryError> => Query.retryValue<'queryError> = value =>
+let retry: ReactQuery_Types.retryParam<'error> => ReactQuery_Types.retryValue<'error> = value =>
   switch value {
-  | #bool(value) => unwrap(value)
-  | #number(value) => unwrap(value)
-  | #fn(value) => unwrap(value)
+  | #bool(value) => Obj.magic(value)
+  | #number(value) => Obj.magic(value)
+  | #fn(value) => Obj.magic(value)
   }
 
-let retryDelay: Query.retryDelayParam<'queryError> => Query.retryDelayValue<'queryError> = value =>
+let retryDelay: ReactQuery_Types.retryDelayParam<'error> => ReactQuery_Types.retryDelayValue<
+  'error,
+> = value =>
   switch value {
-  | #number(value) => unwrap(value)
-  | #fn(value) => unwrap(value)
+  | #number(value) => Obj.magic(value)
+  | #fn(value) => Obj.magic(value)
   }
 
-let time: Query.time => Query.timeValue = value =>
+let time: ReactQuery_Types.time => ReactQuery_Types.timeValue = value =>
   switch value {
-  | #number(value) => unwrap(value)
-  | #infinity => unwrap(infinity)
+  | #number(value) => Obj.magic(value)
+  | #infinity => Obj.magic(infinity)
   }
 
 let refetchInterval = value =>
   switch value {
-  | #bool(value) => unwrap(value)
-  | #number(value) => unwrap(value)
+  | #bool(value) => Obj.magic(value)
+  | #number(value) => Obj.magic(value)
   }
 
 let boolOrAlways = value =>
   switch value {
-  | #bool(value) => unwrap(value)
-  | #always => unwrap(#always)
+  | #bool(value) => Obj.magic(value)
+  | #always => Obj.magic(#always)
   }
 
 let notifyOnChangeProps = value =>
   switch value {
-  | #array(value) => unwrap(value)
-  | #tracked => unwrap(#tracked)
+  | #array(value) => Obj.magic(value)
+  | #tracked => Obj.magic(#tracked)
+  }
+
+let setQueryData: ReactQuery_Types.queryDataKeyOrFilter<
+  'queryKey,
+> => ReactQuery_Types.queryDataKeyOrFilter<'queryKey> = value =>
+  switch value {
+  | #keys(value) => Obj.magic(value)
+  | #filters(value) => Obj.magic(value)
   }
 
 let refetchOnMount = boolOrAlways

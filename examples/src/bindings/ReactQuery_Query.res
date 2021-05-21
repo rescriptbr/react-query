@@ -1,22 +1,3 @@
-type queryFunctionContext
-type queryKey
-
-type timeValue
-type boolOrAlwaysValue
-type refetchIntervalValue
-type notifyOnChangePropsValue
-type retryValue<'queryError>
-type retryDelayValue<'queryError>
-
-type retryParam<'queryError> = [#bool(bool) | #number(int) | #fn((int, 'queryError) => bool)]
-type retryDelayParam<'queryError> = [#number(int) | #fn((int, 'queryError) => int)]
-type time = [#number(int) | #infinity]
-type refetchInterval = [#bool(bool) | #number(int)]
-type boolOrAlways = [#bool(bool) | #always]
-type notifyOnChangeProps = [#array(array<string>) | #tracked]
-
-type queryStatus = [#loading | #success | #idle | #error | #initialData]
-
 type refetchOptions = {
   throwOnError: bool,
   cancelRefetch: bool,
@@ -25,19 +6,19 @@ type refetchOptions = {
 @deriving(abstract)
 type queryOptions<'queryKey, 'queryData, 'queryError> = {
   @optional queryKey: 'queryKey,
-  @optional queryFn: queryFunctionContext => Js.Promise.t<'queryData>,
+  @optional queryFn: ReactQuery_Types.queryFunctionContext => Js.Promise.t<'queryData>,
   @optional enabled: bool,
-  @optional retry: retryValue<'queryError>,
+  @optional retry: ReactQuery_Types.retryValue<'queryError>,
   @optional retryOnMount: bool,
-  @optional retryDelay: retryDelayValue<'queryError>,
-  @optional staleTime: timeValue,
-  @optional queryKeyHashFn: queryKey => string,
-  @optional refetchInterval: refetchIntervalValue,
+  @optional retryDelay: ReactQuery_Types.retryDelayValue<'queryError>,
+  @optional staleTime: ReactQuery_Types.timeValue,
+  @optional queryKeyHashFn: 'queryKey => string,
+  @optional refetchInterval: ReactQuery_Types.refetchIntervalValue,
   @optional refetchIntervalInBackground: bool,
-  @optional refetchOnMount: boolOrAlwaysValue,
-  @optional refetchOnWindowFocus: boolOrAlwaysValue,
-  @optional refetchOnReconnect: boolOrAlwaysValue,
-  @optional notifyOnChangeProps: notifyOnChangePropsValue,
+  @optional refetchOnMount: ReactQuery_Types.boolOrAlwaysValue,
+  @optional refetchOnWindowFocus: ReactQuery_Types.boolOrAlwaysValue,
+  @optional refetchOnReconnect: ReactQuery_Types.boolOrAlwaysValue,
+  @optional notifyOnChangeProps: ReactQuery_Types.notifyOnChangePropsValue,
   @optional notifyOnChangePropsExclusions: array<string>,
   @optional onSuccess: 'queryData => unit,
   @optional onError: 'queryError => unit,
@@ -53,7 +34,7 @@ type queryOptions<'queryKey, 'queryData, 'queryError> = {
 }
 
 type rec queryResult<'queryError, 'queryData> = {
-  status: queryStatus,
+  status: ReactQuery_Types.queryStatus,
   isIdle: bool,
   isError: bool,
   isFetched: bool,

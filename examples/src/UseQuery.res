@@ -25,8 +25,6 @@ let fetchTodo = id =>
 
 @react.component
 let make = () => {
-  let client = ReactQuery.useQueryClient()
-  let isFetching = ReactQuery.useIsFetchingWithKeys("/todo")
   let result = ReactQuery.useQuery(
     ReactQuery.queryOptions(
       ~queryKey="/todo-1",
@@ -35,11 +33,11 @@ let make = () => {
       (),
     ),
   )
-  Js.log(client)
+
   switch result {
   | {data: Some(value)} => Js.log(value.title)
   | _ => Js.log("caboom!")
   }
 
-  <div> {isFetching ? `Loading...`->React.string : React.null} </div>
+  <div />
 }

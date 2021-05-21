@@ -1,13 +1,5 @@
-type queryClient
-
 include ReactQuery_Query
+include ReactQuery_Mutation
+include ReactQuery_Hooks
 include ReactQuery_Utils
-
-module Provider = {
-  @new @module("react-query")
-  external createClient: unit => queryClient = "QueryClient"
-
-  @module("react-query") @react.component
-  external make: (~client: queryClient, ~children: React.element) => React.element =
-    "QueryClientProvider"
-}
+include ReactQuery_Client
