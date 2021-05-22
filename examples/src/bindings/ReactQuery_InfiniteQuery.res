@@ -1,7 +1,13 @@
+type inifiniteQueryFunctionContext<'queryKey, 'pageParam> = {
+  queryKey: array<'queryKey>,
+  pageParam: option<'pageParam>,
+}
+
 @deriving(abstract)
-type queryOptions<'queryKey, 'queryData, 'queryError> = {
+type infiniteQueryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> = {
   @optional queryKey: 'queryKey,
-  @optional queryFn: ReactQuery_Types.queryFunctionContext => Js.Promise.t<'queryData>,
+  @optional
+  queryFn: inifiniteQueryFunctionContext<'queryKey, 'pageParam> => Js.Promise.t<'queryData>,
   @optional enabled: bool,
   @optional retry: ReactQuery_Types.retryValue<'queryError>,
   @optional retryOnMount: bool,
@@ -26,9 +32,11 @@ type queryOptions<'queryKey, 'queryData, 'queryError> = {
   @optional initialData: 'queryData => 'queryData,
   @optional initialDataUpdatedAt: unit => int,
   @optional placeholderData: unit => 'queryData,
+  @optional getNextPageParam: ('pageParam, array<'pageParam>) => option<'pageParam>,
+  @optional getPreviousPageParam: ('pageParam, array<'pageParam>) => option<'pageParam>,
 }
 
-type rec queryResult<'queryError, 'queryData> = {
+type rec infiniteQueryResult<'queryError, 'queryData, 'pageParam> = {
   status: ReactQuery_Types.queryStatus,
   isIdle: bool,
   isError: bool,
@@ -42,22 +50,27 @@ type rec queryResult<'queryError, 'queryData> = {
   isRefetchError: bool,
   isStale: bool,
   isSuccess: bool,
-  data: option<'queryData>,
   dataUpdatedAt: int,
   error: Js.Nullable.t<'queryError>,
   errorUpdatedAt: int,
   failureCount: int,
-  refetch: ReactQuery_Types.refetchOptions => Js.Promise.t<queryResult<'queryError, 'queryData>>,
+  refetch: ReactQuery_Types.refetchOptions => Js.Promise.t<
+    infiniteQueryResult<'queryError, 'queryData, 'pageParam>,
+  >,
   remove: unit => unit,
+  data: ReactQuery_Types.infiniteData<'queryData, 'pageParam>,
+  isFetchingNextPage: bool,
+  isFetchingPreviousPage: bool,
+  //fetchNextPage: (options?: FetchNextPageOptions) => Promise<UseInfiniteQueryResult>
+  //fetchPreviousPage: (options?: FetchPreviousPageOptions) => Promise<UseInfiniteQueryResult>
+  hasNextPage: bool,
+  hasPreviousPage: bool,
 }
 
 @module("react-query")
-external useQuery: queryOptions<'queryKey, 'queryData, 'queryError> => queryResult<
-  'queryError,
+external useQuery: infiniteQueryOptions<
+  'queryKey,
   'queryData,
-> = "useQuery"
-
-@module("react-query")
-external useQueries: array<queryOptions<'queryKey, 'queryData, 'queryError>> => array<
-  queryResult<'queryError, 'queryData>,
-> = "useQueries"
+  'queryError,
+  'pageParam,
+> => infiniteQueryResult<'queryError, 'queryData, 'pageParam> = "useInfiniteQuery"

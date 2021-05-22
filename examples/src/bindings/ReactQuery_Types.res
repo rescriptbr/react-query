@@ -14,9 +14,9 @@ type time = [#number(int) | #infinity]
 type refetchInterval = [#bool(bool) | #number(int)]
 type boolOrAlways = [#bool(bool) | #always]
 type notifyOnChangeProps = [#array(array<string>) | #tracked]
-type infiniteData<'queryData, 'params> = {
+type infiniteData<'queryData, 'pageParam> = {
   pages: array<'queryData>,
-  pageParams: array<'params>,
+  pageParams: array<'pageParam>,
 }
 type queryStatus = [#loading | #success | #idle | #error | #initialData]
 
@@ -32,3 +32,8 @@ type queryFilter<'queryKey> = {
 }
 
 type queryDataKeyOrFilter<'queryKey> = [#keys('queryKey) | #filters(queryFilter<'queryKey>)]
+
+type refetchOptions = {
+  throwOnError: bool,
+  cancelRefetch: bool,
+}

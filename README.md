@@ -1,14 +1,10 @@
-## useQuery(...) ✅
-
-## useQueries(...) ✅
-
 ## Features
 
 - useQuery ✅
 - useQueries ✅
 - useMutation ✅
-- useInfiniteQuery
-- useQueryClient
+- useInfiniteQuery ✅
+- useQueryClient ✅
 - useQueryErrorResetBoundary ✅
 - useIsFetching ✅
 - useIsMutating ✅

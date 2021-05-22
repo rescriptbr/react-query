@@ -1,3 +1,4 @@
+module InfiniteQuery = ReactQuery_InfiniteQuery
 include ReactQuery_Query
 include ReactQuery_Mutation
 include ReactQuery_Hooks

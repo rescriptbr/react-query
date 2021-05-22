@@ -1,6 +1,30 @@
 type queryClientValue
 type fetchMeta
 
+type invalidateQueryFilter = {
+  refetchActive: option<bool>,
+  refetchInactive: option<bool>,
+}
+
+type clientRefetchOptions = {throwOnError: option<bool>}
+
+type invalidateQueryOptions<'queryKey> = {
+  queryKey: option<'queryKey>,
+  filters: option<invalidateQueryFilter>,
+  refetchOptions: option<clientRefetchOptions>,
+}
+
+type refetchQueriesOptions<'queryKey> = {
+  queryKey: option<'queryKey>,
+  filters: option<ReactQuery_Types.queryFilter<'queryKey>>,
+  refetchOptions: option<clientRefetchOptions>,
+}
+
+type cancelQueriesOptions<'queryKey> = {
+  queryKey: option<'queryKey>,
+  filters: option<ReactQuery_Types.queryFilter<'queryKey>>,
+}
+
 type queryState<'queryData, 'queryError> = {
   data: option<'queryData>,
   dataUpdateCount: int,
@@ -50,6 +74,31 @@ type queryClient<'queryKey, 'queryData, 'queryError, 'pageParams> = {
     ReactQuery_Types.queryDataKeyOrFilterValue<'queryKey>,
     option<'queryData> => 'queryData,
   ) => unit,
+  invalidateQueries: (
+    option<ReactQuery_Types.queryFilter<'queryKey>>,
+    option<clientRefetchOptions>,
+  ) => Js.Promise.t<unit>,
+  refetchQueries: (
+    option<ReactQuery_Types.queryFilter<'queryKey>>,
+    option<clientRefetchOptions>,
+  ) => Js.Promise.t<unit>,
+  cancelQueries: option<ReactQuery_Types.queryFilter<'queryKey>> => Js.Promise.t<unit>,
+  removeQueries: option<ReactQuery_Types.queryFilter<'queryKey>> => Js.Promise.t<unit>,
+  resetQueries: (
+    option<ReactQuery_Types.queryFilter<'queryKey>>,
+    option<clientRefetchOptions>,
+  ) => Js.Promise.t<unit>,
+  isFetching: option<ReactQuery_Types.queryFilter<'queryKey>> => bool,
+  isMutating: option<ReactQuery_Types.queryFilter<'queryKey>> => bool,
+  // setDefaultOptions
+  // getDefaultOptions
+  // setQueryDefaults
+  // getQueryDefaults
+  // getQueryCache
+  // setQueryCache
+  // getMutationCache
+  // setMutationCache
+  clear: unit => unit,
 }
 
 @module("react-query")
