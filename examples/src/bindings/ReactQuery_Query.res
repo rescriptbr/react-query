@@ -1,7 +1,8 @@
 @deriving(abstract)
-type queryOptions<'queryKey, 'queryData, 'queryError> = {
+type queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> = {
   @optional queryKey: 'queryKey,
-  @optional queryFn: ReactQuery_Types.queryFunctionContext => Js.Promise.t<'queryData>,
+  @optional
+  queryFn: ReactQuery_Types.queryFunctionContext<'queryKey, 'pageParam> => Js.Promise.t<'queryData>,
   @optional enabled: bool,
   @optional retry: ReactQuery_Types.retryValue<'queryError>,
   @optional retryOnMount: bool,
@@ -52,12 +53,12 @@ type rec queryResult<'queryError, 'queryData> = {
 }
 
 @module("react-query")
-external useQuery: queryOptions<'queryKey, 'queryData, 'queryError> => queryResult<
+external useQuery: queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> => queryResult<
   'queryError,
   'queryData,
 > = "useQuery"
 
 @module("react-query")
-external useQueries: array<queryOptions<'queryKey, 'queryData, 'queryError>> => array<
+external useQueries: array<queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam>> => array<
   queryResult<'queryError, 'queryData>,
 > = "useQueries"

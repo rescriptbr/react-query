@@ -1,6 +1,87 @@
 type queryClientValue
 type fetchMeta
 
+type notifyOnChangePropsKeys = [
+  | #error
+  | #isError
+  | #isIdle
+  | #isLoading
+  | #isLoadingError
+  | #isRefetchError
+  | #isSuccess
+  | #status
+  | #tracked
+]
+
+type infiniteQueryObserverResultProps = [
+  | #error
+  | #isError
+  | #isIdle
+  | #isLoading
+  | #isLoadingError
+  | #isRefetchError
+  | #isSuccess
+  | #status
+  | #tracked
+]
+
+type fetchContext
+
+type queryBehavior = {onFetch: fetchContext => unit}
+
+type getPreviousPageParamFunction<'data> = {
+  firstPage: 'data,
+  allPages: array<'data>,
+}
+
+type getNextPageParamFunction<'data> = {
+  lastPage: 'data,
+  allPages: array<'data>,
+}
+
+@deriving(abstract)
+type queryObserverOptions<'error, 'data, 'queryData, 'queryKey, 'pageParam> = {
+  @optional retry: ReactQuery_Types.retryValue<'error>,
+  @optional retryDelay: ReactQuery_Types.retryValue<'error>,
+  @optional cacheTime: int,
+  @optional isDataEqual: (option<'data>, 'data) => bool,
+  @optional
+  queryFn: ReactQuery_Types.queryFunctionContext<'queryKey, 'pageParam> => Js.Promise.t<'queryData>,
+  @optional queryHash: string,
+  @optional queryKey: 'queryKey,
+  @optional queryKeyHashFn: 'queryKey => string,
+  @optional initialData: unit => 'data,
+  @optional initialDataUpdatedAt: unit => option<int>,
+  @optional behavior: queryBehavior, // Revisar context type
+  @optional structuralSharing: bool,
+  @optional getPreviousPageParam: getPreviousPageParamFunction<'data>,
+  @optional getNextPageParam: getNextPageParamFunction<'data>,
+  @optional _defaulted: bool,
+  @optional enabled: bool,
+  @optional staleTime: int,
+  @optional refetchInterval: ReactQuery_Types.refetchIntervalValue,
+  @optional refetchIntervalInBackground: bool,
+  @optional refetchOnWindowFocus: ReactQuery_Types.boolOrAlwaysValue,
+  @optional refetchOnReconnect: ReactQuery_Types.boolOrAlwaysValue,
+  @optional refetchOnMount: ReactQuery_Types.boolOrAlwaysValue,
+  @optional retryOnMount: bool,
+  @optional notifyOnChangeProps: array<notifyOnChangePropsKeys>,
+  @optional notifyOnChangePropsExclusions: array<bool>,
+  @optional onSuccess: 'data => unit,
+  @optional onError: 'error => unit,
+  @optional onSettled: (option<'data>, option<'error>) => unit,
+  @optional useErrorBoundary: bool,
+  @optional select: 'queryData => 'data,
+  @optional suspense: bool,
+  @optional keepPreviousData: bool,
+  @optional placeholderData: ReactQuery_Types.placeholderDataValue,
+  @optional optimisticResults: bool,
+}
+
+type defaultOptions<'error, 'data, 'queryData, 'queryKey, 'pageParam> = {
+  queries: option<queryObserverOptions<'error, 'data, 'queryData, 'queryKey, 'pageParam>>,
+}
+
 type invalidateQueryFilter = {
   refetchActive: option<bool>,
   refetchInactive: option<bool>,
@@ -41,9 +122,10 @@ type queryState<'queryData, 'queryError> = {
 }
 
 @deriving(abstract)
-type fetchQueryOptions<'queryKey, 'queryData, 'queryError> = {
+type fetchQueryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> = {
   @optional queryKey: 'queryKey,
-  @optional queryFn: ReactQuery_Types.queryFunctionContext => Js.Promise.t<'queryData>,
+  @optional
+  queryFn: ReactQuery_Types.queryFunctionContext<'queryKey, 'pageParam> => Js.Promise.t<'queryData>,
   @optional retry: ReactQuery_Types.retryValue<'queryError>,
   @optional retryOnMount: bool,
   @optional retryDelay: ReactQuery_Types.retryDelayValue<'queryError>,
@@ -56,14 +138,24 @@ type fetchQueryOptions<'queryKey, 'queryData, 'queryError> = {
 }
 
 type queryClient<'queryKey, 'queryData, 'queryError, 'pageParams> = {
-  fetchQuery: fetchQueryOptions<'queryKey, 'queryData, 'queryError> => Js.Promise.t<'queryData>,
-  fetchInfiniteQuery: fetchQueryOptions<'queryKey, 'queryData, 'queryError> => Js.Promise.t<
-    ReactQuery_Types.infiniteData<'queryData, 'pageParams>,
+  fetchQuery: fetchQueryOptions<'queryKey, 'queryData, 'queryError, 'pageParams> => Js.Promise.t<
+    'queryData,
   >,
-  prefetchQuery: fetchQueryOptions<'queryKey, 'queryData, 'queryError> => Js.Promise.t<unit>,
-  prefetchInfiniteQuery: fetchQueryOptions<'queryKey, 'queryData, 'queryError> => Js.Promise.t<
+  fetchInfiniteQuery: fetchQueryOptions<
+    'queryKey,
+    'queryData,
+    'queryError,
+    'pageParams,
+  > => Js.Promise.t<ReactQuery_Types.infiniteData<'queryData, 'pageParams>>,
+  prefetchQuery: fetchQueryOptions<'queryKey, 'queryData, 'queryError, 'pageParams> => Js.Promise.t<
     unit,
   >,
+  prefetchInfiniteQuery: fetchQueryOptions<
+    'queryKey,
+    'queryData,
+    'queryError,
+    'pageParams,
+  > => Js.Promise.t<unit>,
   getQueryData: 'queryKey => option<'queryData>,
   setQueryData: ('queryKey, option<'queryData>) => 'queryData,
   getQueryState: (

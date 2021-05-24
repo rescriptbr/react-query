@@ -45,6 +45,15 @@ let setQueryData: ReactQuery_Types.queryDataKeyOrFilter<
   | #filters(value) => Obj.magic(value)
   }
 
+let placeholderData: ReactQuery_Types.placeholderData<
+  'queryData,
+  'queryResult,
+> => ReactQuery_Types.placeholderDataValue = value =>
+  switch value {
+  | #data(data) => Obj.magic(data)
+  | #function(value) => Obj.magic(value)
+  }
+
 let refetchOnMount = boolOrAlways
 let refetchOnWindowFocus = boolOrAlways
 let refetchOnReconnect = boolOrAlways

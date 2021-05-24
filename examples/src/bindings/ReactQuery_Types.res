@@ -1,5 +1,4 @@
 type query
-type queryFunctionContext
 type timeValue
 type boolOrAlwaysValue
 type refetchIntervalValue
@@ -7,6 +6,12 @@ type notifyOnChangePropsValue
 type retryValue<'queryError>
 type retryDelayValue<'queryError>
 type queryDataKeyOrFilterValue<'queryKey>
+type placeholderDataValue
+
+type queryFunctionContext<'queryKey, 'pageParam> = {
+  queryKey: 'queryKey,
+  pageParam: 'pageParam,
+}
 
 type retryParam<'error> = [#bool(bool) | #number(int) | #fn((int, 'error) => bool)]
 type retryDelayParam<'error> = [#number(int) | #fn((int, 'error) => int)]
@@ -19,6 +24,11 @@ type infiniteData<'queryData, 'pageParam> = {
   pageParams: array<'pageParam>,
 }
 type queryStatus = [#loading | #success | #idle | #error | #initialData]
+
+type placeholderData<'queryData, 'queryResult> = [
+  | #data('queryData)
+  | #function(unit => option<'queryResult>)
+]
 
 @deriving(abstract)
 type queryFilter<'queryKey> = {

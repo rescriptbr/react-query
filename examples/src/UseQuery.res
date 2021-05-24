@@ -29,15 +29,14 @@ let make = () => {
     ReactQuery.queryOptions(
       ~queryKey="/todo-1",
       ~queryFn=_ => fetchTodo(1),
+      ~retry=false->#bool->ReactQuery.retry,
       ~refetchIntervalInBackground=false,
       (),
     ),
   )
 
   switch result {
-  | {data: Some(value)} => Js.log(value.title)
-  | _ => Js.log("caboom!")
+  | {data: Some(todo)} => <div> {todo.title->React.string} </div>
+  | _ => React.null
   }
-
-  <div />
 }

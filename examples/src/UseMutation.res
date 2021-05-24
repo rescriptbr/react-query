@@ -39,12 +39,14 @@ let createTodo = post =>
 
 @react.component
 let make = () => {
-  let {mutate, isLoading, isSuccess, data, _} =
+  let {mutate, isLoading, isSuccess, data, _} = ReactQuery.useMutation(
     ReactQuery.mutationOptions(
       ~mutationKey="create-post",
       ~mutationFn=createTodo,
+      ~retry=false->#bool->ReactQuery.retry,
       (),
-    )->ReactQuery.useMutation
+    ),
+  )
 
   let handleCreation = React.useCallback1(_ => {
     let post = {
