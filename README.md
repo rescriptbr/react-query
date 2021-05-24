@@ -1,4 +1,6 @@
-## Features
+## Supported features
+
+### Hooks
 
 - useQuery ✅
 - useQueries ✅
@@ -8,6 +10,9 @@
 - useQueryErrorResetBoundary ✅
 - useIsFetching ✅
 - useIsMutating ✅
+
+### Providers / Client
+
 - QueryClientProvider ✅
 - QueryClient 
 - QueryCache
@@ -16,6 +21,9 @@
 - InfiniteQueryObserver
 - QueriesObserver
 - QueryErrorResetBoundary
+
+### Functions / Utils
+
 - focusManager
 - onlineManager
 - setLogger
