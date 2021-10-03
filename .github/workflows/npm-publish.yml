@@ -13,7 +13,7 @@ jobs:
         with:
           node-version: 14
       - run: yarn
-      - run: yarn lib:compile
+      - run: yarn rescript:build
 
   publish-npm:
     needs: build
@@ -24,6 +24,6 @@ jobs:
         with:
           node-version: 14
           registry-url: https://registry.npmjs.org/
-      - run: cd lib && npm publish --access=public
+      - run: npm publish --access=public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
