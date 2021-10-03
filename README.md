@@ -67,3 +67,6 @@ These bindings are work in progress, check out the supported features:
 - ⬜ hydration/useHydrate
 - ⬜ hydration/hydrate
 - ⬜ hydration/dehydrate
+
+## License
+MIT
