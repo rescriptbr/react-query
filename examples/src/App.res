@@ -2,34 +2,28 @@ module Fetch = {
   type response
 
   @send external json: response => Js.Promise.t<'a> = "json"
-  @val external fetch: (string, {..}) => Js.Promise.t<response> = "fetch"
+  @val external fetch: string => Js.Promise.t<response> = "fetch"
 }
 
 type todo = {id: string, title: string}
 
 let apiUrl = "https://jsonplaceholder.typicode.com/todos/1"
-let client = ReactQuery.Provider.createClient()
 
 let fetchTodos = (_): Js.Promise.t<todo> => {
-  let {then} = module(Promise)
-
-  Fetch.fetch(
-    apiUrl,
-    {
-      "method": "GET",
-    },
-  )->then(Fetch.json)
+  Fetch.fetch(apiUrl)->Promise.then(Fetch.json)
 }
 
 module TodoItem = {
-  let {useQuery, queryOptions} = module(ReactQuery)
-
   @react.component
   let make = () => {
-    let queryResult = useQuery(
-      queryOptions(
+    let queryResult = ReactQuery.useQuery(
+      ReactQuery.queryOptions(
         ~queryFn=fetchTodos,
         ~queryKey="todos",
+        /*
+         * Helper functions to convert unsupported TypeScript types in ReScript
+         * Check out the module ReactQuery_Utils.res
+         */
         ~refetchOnWindowFocus=ReactQuery.refetchOnWindowFocus(#bool(false)),
         (),
       ),
@@ -38,12 +32,18 @@ module TodoItem = {
     <div>
       {switch queryResult {
       | {isLoading: true} => "Loading..."->React.string
-      | {data: Some(todo)} => `Todo Title ${todo.title}`->React.string
+      | {data: Some(todo), isLoading: false, isError: false} =>
+        `Todo Title ${todo.title}`->React.string
       | _ => `Unexpected error...`->React.string
       }}
     </div>
   }
 }
+
+/*
+ * Create a new client
+ */
+let client = ReactQuery.Provider.createClient()
 
 @react.component
 let make = () => {
