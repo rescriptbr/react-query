@@ -1,5 +1,29 @@
 {
-  "dependencies": {
-    "bs-fetch": "0.6.2"
-  }
+  "name": "@rescriptbr/react-query",
+  "version": "0.0.1",
+  "main": "index.js",
+  "license": "MIT",
+  "keywoprds": [
+    "rescript",
+    "rescript-react",
+    "rescript-react-query"
+  ],
+  "devDependencies": {
+    "@rescript/react": "0.10.3",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "rescript": "9.1.4"
+  },
+  "peerDependencies": {
+    "@rescript/react": "0.10.3",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
+  },
+  "scripts": {
+    "build": "rescript build -with-deps",
+    "watch": "rescript build -w",
+    "clean": "rescript clean",
+    "format": "rescript format"
+  },
+  "dependencies": {}
 }
