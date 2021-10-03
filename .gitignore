@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/examples/node_modules
 /.pnp
 .pnp.js
 
@@ -28,3 +29,4 @@ yarn-error.log*
 /**/*.bs.js
 
 /lib
+/examples/lib
