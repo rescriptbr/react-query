@@ -7,6 +7,8 @@
     <a target="_blank" href="#supported-features"> Supported Features </a> //
   <a target="_blank" href="https://github.com/rescriptbr"> ReScript Brazil Community </a>
  </p>
+ 
+> :warning: These bindings is compatible with the v3 version of react-query, we're [working](https://github.com/rescriptbr/react-query/issues/3) on the v4 support.
 
 ## Installation
 
