@@ -8,7 +8,8 @@
   <a target="_blank" href="https://github.com/rescriptbr"> ReScript Brazil Community </a>
  </p>
  
-> :warning: These bindings are compatible with the v3 version of react-query, we're [working](https://github.com/rescriptbr/react-query/issues/3) on the v4 support.
+> :warning: This repo contains experimental bindings for [@tanstack/query](https://tanstack.com/query/v4) using the experimental optional fields API with ReScript@v10.
+If you're looking bindings to the React Query v3 click [here](https://github.com/rescriptbr/react-query/tree/v0.0.2).
 
 ## Installation
 
