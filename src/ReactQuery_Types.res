@@ -18,12 +18,14 @@ type retryDelayParam<'error> = [#number(int) | #fn((int, 'error) => int)]
 type time = [#number(int) | #infinity]
 type refetchInterval = [#bool(bool) | #number(int)]
 type boolOrAlways = [#bool(bool) | #always]
-type notifyOnChangeProps = [#array(array<string>) | #tracked]
-type infiniteData<'queryData, 'pageParam> = {
+type notifyOnChangeProps = [#array(array<string>) | #all]
+
+type infiniteData<'queryData> = {
   pages: array<'queryData>,
-  pageParams: array<'pageParam>,
+  pageParams: array<int>,
 }
-type queryStatus = [#loading | #success | #idle | #error | #initialData]
+
+type queryStatus = [#loading | #success | #error | #initialData]
 
 type placeholderData<'queryData, 'queryResult> = [
   | #data('queryData)
@@ -33,8 +35,7 @@ type placeholderData<'queryData, 'queryResult> = [
 @deriving(abstract)
 type queryFilter<'queryKey> = {
   @optional exact: bool,
-  @optional active: bool,
-  @optional inactive: bool,
+  @optional @as("type") type_: [#active | #inactive | #all],
   @optional stale: bool,
   @optional fetching: bool,
   @optional predicate: query => bool,

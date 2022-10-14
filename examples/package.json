@@ -12,14 +12,14 @@
     "@rescript/react": "0.10.3",
     "@rescriptbr/react-query": "../",
     "@ryyppy/rescript-promise": "2.1.0",
-    "@vitejs/plugin-react": "1.0.1",
+    "@vitejs/plugin-react": "2.0.1",
     "react": "17.0.0",
     "react-dom": "17.0.0",
-    "react-query": "^3.25.0",
-    "rescript": "9.1.4",
+    "@tanstack/react-query": "4.2.1",
+    "rescript": "10.0.1",
     "web-vitals": "2.0.1"
   },
   "devDependencies": {
-    "vite": "2.3.8"
+    "vite": "3.0.9"
   }
 }

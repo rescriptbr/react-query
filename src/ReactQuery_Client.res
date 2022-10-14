@@ -82,10 +82,7 @@ type defaultOptions<'error, 'data, 'queryData, 'queryKey, 'pageParam> = {
   queries: option<queryObserverOptions<'error, 'data, 'queryData, 'queryKey, 'pageParam>>,
 }
 
-type invalidateQueryFilter = {
-  refetchActive: option<bool>,
-  refetchInactive: option<bool>,
-}
+type invalidateQueryFilter = {refetchType: [#active | #inactive | #all | #none]}
 
 type clientRefetchOptions = {throwOnError: option<bool>}
 
@@ -146,7 +143,7 @@ type queryClient<'queryKey, 'queryData, 'queryError, 'pageParams> = {
     'queryData,
     'queryError,
     'pageParams,
-  > => Js.Promise.t<ReactQuery_Types.infiniteData<'queryData, 'pageParams>>,
+  > => Js.Promise.t<ReactQuery_Types.infiniteData<'queryData>>,
   prefetchQuery: fetchQueryOptions<'queryKey, 'queryData, 'queryError, 'pageParams> => Js.Promise.t<
     unit,
   >,
@@ -193,15 +190,15 @@ type queryClient<'queryKey, 'queryData, 'queryError, 'pageParams> = {
   clear: unit => unit,
 }
 
-@module("react-query")
+@module("@tanstack/react-query")
 external useQueryClient: unit => queryClient<'queryKey, 'queryData, 'queryError, 'pageParams> =
   "useQueryClient"
 
 module Provider = {
-  @new @module("react-query")
+  @new @module("@tanstack/react-query")
   external createClient: unit => queryClientValue = "QueryClient"
 
-  @module("react-query") @react.component
+  @module("@tanstack/react-query") @react.component
   external make: (
     ~client: queryClientValue,
     ~contextSharing: bool=?,
