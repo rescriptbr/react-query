@@ -1,42 +1,40 @@
-type inifiniteQueryFunctionContext<'queryKey, 'pageParam> = {
-  queryKey: array<'queryKey>,
-  pageParam: option<'pageParam>,
+type inifiniteQueryFunctionContext<'queryKey> = {
+  queryKey: 'queryKey,
+  pageParam: option<int>,
 }
 
-@deriving(abstract)
-type infiniteQueryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> = {
-  @optional queryKey: 'queryKey,
-  @optional
-  queryFn: inifiniteQueryFunctionContext<'queryKey, 'pageParam> => Js.Promise.t<'queryData>,
-  @optional enabled: bool,
-  @optional retry: ReactQuery_Types.retryValue<'queryError>,
-  @optional retryOnMount: bool,
-  @optional retryDelay: ReactQuery_Types.retryDelayValue<'queryError>,
-  @optional staleTime: ReactQuery_Types.timeValue,
-  @optional queryKeyHashFn: 'queryKey => string,
-  @optional refetchInterval: ReactQuery_Types.refetchIntervalValue,
-  @optional refetchIntervalInBackground: bool,
-  @optional refetchOnMount: ReactQuery_Types.boolOrAlwaysValue,
-  @optional refetchOnWindowFocus: ReactQuery_Types.boolOrAlwaysValue,
-  @optional refetchOnReconnect: ReactQuery_Types.boolOrAlwaysValue,
-  @optional notifyOnChangeProps: ReactQuery_Types.notifyOnChangePropsValue,
-  @optional notifyOnChangePropsExclusions: array<string>,
-  @optional onSuccess: 'queryData => unit,
-  @optional onError: 'queryError => unit,
-  @optional onSettled: ('queryData, 'queryError) => unit,
-  @optional select: 'queryData => 'queryData,
-  @optional suspense: bool,
-  @optional keepPreviousData: bool,
-  @optional structuralSharing: bool,
-  @optional useErrorBoundary: bool,
-  @optional initialData: 'queryData => 'queryData,
-  @optional initialDataUpdatedAt: unit => int,
-  @optional placeholderData: unit => 'queryData,
-  @optional getNextPageParam: ('pageParam, array<'pageParam>) => option<'pageParam>,
-  @optional getPreviousPageParam: ('pageParam, array<'pageParam>) => option<'pageParam>,
+type infiniteQueryOptions<'queryKey, 'queryData, 'queryError> = {
+  queryKey?: 'queryKey,
+  queryFn?: inifiniteQueryFunctionContext<'queryKey> => Js.Promise.t<'queryData>,
+  enabled?: bool,
+  retry?: ReactQuery_Types.retryValue<'queryError>,
+  retryOnMount?: bool,
+  retryDelay?: ReactQuery_Types.retryDelayValue<'queryError>,
+  staleTime?: ReactQuery_Types.timeValue,
+  queryKeyHashFn?: 'queryKey => string,
+  refetchInterval?: ReactQuery_Types.refetchIntervalValue,
+  refetchIntervalInBackground?: bool,
+  refetchOnMount?: ReactQuery_Types.boolOrAlwaysValue,
+  refetchOnWindowFocus?: ReactQuery_Types.boolOrAlwaysValue,
+  refetchOnReconnect?: ReactQuery_Types.boolOrAlwaysValue,
+  notifyOnChangeProps?: ReactQuery_Types.notifyOnChangePropsValue,
+  notifyOnChangePropsExclusions?: array<string>,
+  onSuccess?: 'queryData => unit,
+  onError?: 'queryError => unit,
+  onSettled?: ('queryData, 'queryError) => unit,
+  select?: 'queryData => 'queryData,
+  suspense?: bool,
+  keepPreviousData?: bool,
+  structuralSharing?: bool,
+  useErrorBoundary?: bool,
+  initialData?: 'queryData => 'queryData,
+  initialDataUpdatedAt?: unit => int,
+  placeholderData?: unit => 'queryData,
+  getNextPageParam?: 'queryData => option<int>,
+  getPreviousPageParam?: 'queryData => option<int>,
 }
 
-type rec infiniteQueryResult<'queryError, 'queryData, 'pageParam> = {
+type rec infiniteQueryResult<'queryError, 'queryData> = {
   status: ReactQuery_Types.queryStatus,
   isIdle: bool,
   isError: bool,
@@ -55,22 +53,21 @@ type rec infiniteQueryResult<'queryError, 'queryData, 'pageParam> = {
   errorUpdatedAt: int,
   failureCount: int,
   refetch: ReactQuery_Types.refetchOptions => Js.Promise.t<
-    infiniteQueryResult<'queryError, 'queryData, 'pageParam>,
+    infiniteQueryResult<'queryError, 'queryData>,
   >,
   remove: unit => unit,
-  data: ReactQuery_Types.infiniteData<'queryData, 'pageParam>,
+  data: option<ReactQuery_Types.infiniteData<'queryData>>,
   isFetchingNextPage: bool,
   isFetchingPreviousPage: bool,
-  //fetchNextPage: (options?: FetchNextPageOptions) => Promise<UseInfiniteQueryResult>
+  fetchNextPage: unit => unit,
   //fetchPreviousPage: (options?: FetchPreviousPageOptions) => Promise<UseInfiniteQueryResult>
   hasNextPage: bool,
   hasPreviousPage: bool,
 }
 
-@module("react-query")
-external useQuery: infiniteQueryOptions<
+@module("@tanstack/react-query")
+external useInfiniteQuery: infiniteQueryOptions<
   'queryKey,
   'queryData,
   'queryError,
-  'pageParam,
-> => infiniteQueryResult<'queryError, 'queryData, 'pageParam> = "useInfiniteQuery"
+> => infiniteQueryResult<'queryError, 'queryData> = "useInfiniteQuery"

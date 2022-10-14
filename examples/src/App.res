@@ -16,18 +16,15 @@ let fetchTodos = (_): Js.Promise.t<todo> => {
 module TodoItem = {
   @react.component
   let make = () => {
-    let queryResult = ReactQuery.useQuery(
-      ReactQuery.queryOptions(
-        ~queryFn=fetchTodos,
-        ~queryKey="todos",
-        /*
-         * Helper functions to convert unsupported TypeScript types in ReScript
-         * Check out the module ReactQuery_Utils.res
-         */
-        ~refetchOnWindowFocus=ReactQuery.refetchOnWindowFocus(#bool(false)),
-        (),
-      ),
-    )
+    let queryResult = ReactQuery.useQuery({
+      queryFn: fetchTodos,
+      queryKey: ["todos"],
+      /*
+       * Helper functions to convert unsupported TypeScript types in ReScript
+       * Check out the module ReactQuery_Utils.res
+       */
+      refetchOnWindowFocus: ReactQuery.refetchOnWindowFocus(#bool(false)),
+    })
 
     <div>
       {switch queryResult {
@@ -48,6 +45,9 @@ let client = ReactQuery.Provider.createClient()
 @react.component
 let make = () => {
   <ReactQuery.Provider client>
-    <div> <h1> {React.string("ReScript + React Query")} </h1> <TodoItem /> </div>
+    <div>
+      <h1> {React.string("ReScript + React Query")} </h1>
+      <TodoItem />
+    </div>
   </ReactQuery.Provider>
 }

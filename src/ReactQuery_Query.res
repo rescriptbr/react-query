@@ -1,32 +1,32 @@
-@deriving(abstract)
 type queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> = {
-  @optional queryKey: 'queryKey,
-  @optional
-  queryFn: ReactQuery_Types.queryFunctionContext<'queryKey, 'pageParam> => Js.Promise.t<'queryData>,
-  @optional enabled: bool,
-  @optional retry: ReactQuery_Types.retryValue<'queryError>,
-  @optional retryOnMount: bool,
-  @optional retryDelay: ReactQuery_Types.retryDelayValue<'queryError>,
-  @optional staleTime: ReactQuery_Types.timeValue,
-  @optional queryKeyHashFn: 'queryKey => string,
-  @optional refetchInterval: ReactQuery_Types.refetchIntervalValue,
-  @optional refetchIntervalInBackground: bool,
-  @optional refetchOnMount: ReactQuery_Types.boolOrAlwaysValue,
-  @optional refetchOnWindowFocus: ReactQuery_Types.boolOrAlwaysValue,
-  @optional refetchOnReconnect: ReactQuery_Types.boolOrAlwaysValue,
-  @optional notifyOnChangeProps: ReactQuery_Types.notifyOnChangePropsValue,
-  @optional notifyOnChangePropsExclusions: array<string>,
-  @optional onSuccess: 'queryData => unit,
-  @optional onError: 'queryError => unit,
-  @optional onSettled: ('queryData, 'queryError) => unit,
-  @optional select: 'queryData => 'queryData,
-  @optional suspense: bool,
-  @optional keepPreviousData: bool,
-  @optional structuralSharing: bool,
-  @optional useErrorBoundary: bool,
-  @optional initialData: 'queryData => 'queryData,
-  @optional initialDataUpdatedAt: unit => int,
-  @optional placeholderData: unit => 'queryData,
+  queryKey?: array<'queryKey>,
+  queryFn?: ReactQuery_Types.queryFunctionContext<array<'queryKey>, 'pageParam> => Js.Promise.t<
+    'queryData,
+  >,
+  enabled?: bool,
+  retry?: ReactQuery_Types.retryValue<'queryError>,
+  retryOnMount?: bool,
+  retryDelay?: ReactQuery_Types.retryDelayValue<'queryError>,
+  staleTime?: ReactQuery_Types.timeValue,
+  queryKeyHashFn?: array<'queryKey> => string,
+  refetchInterval?: ReactQuery_Types.refetchIntervalValue,
+  refetchIntervalInBackground?: bool,
+  refetchOnMount?: ReactQuery_Types.boolOrAlwaysValue,
+  refetchOnWindowFocus?: ReactQuery_Types.boolOrAlwaysValue,
+  refetchOnReconnect?: ReactQuery_Types.boolOrAlwaysValue,
+  notifyOnChangeProps?: ReactQuery_Types.notifyOnChangePropsValue,
+  notifyOnChangePropsExclusions?: array<string>,
+  onSuccess?: 'queryData => unit,
+  onError?: 'queryError => unit,
+  onSettled?: ('queryData, 'queryError) => unit,
+  select?: 'queryData => 'queryData,
+  suspense?: bool,
+  keepPreviousData?: bool,
+  structuralSharing?: bool,
+  useErrorBoundary?: bool,
+  initialData?: 'queryData => 'queryData,
+  initialDataUpdatedAt?: unit => int,
+  placeholderData?: unit => 'queryData,
 }
 
 type rec queryResult<'queryError, 'queryData> = {
@@ -52,13 +52,13 @@ type rec queryResult<'queryError, 'queryData> = {
   remove: unit => unit,
 }
 
-@module("react-query")
+@module("@tanstack/react-query")
 external useQuery: queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> => queryResult<
   'queryError,
   'queryData,
 > = "useQuery"
 
-@module("react-query")
+@module("@tanstack/react-query")
 external useQueries: array<queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam>> => array<
   queryResult<'queryError, 'queryData>,
 > = "useQueries"

@@ -1,6 +1,6 @@
 type mutationContext
 
-type mutationStatus = [#loading | #success | #idle | #error]
+type mutationStatus = [#loading | #success | #error]
 
 type mutateParams<'mutationVariables, 'mutationData, 'mutationError, 'unknown> = {
   onSuccess: option<
@@ -21,7 +21,7 @@ type mutateParams<'mutationVariables, 'mutationData, 'mutationError, 'unknown> =
 
 @deriving(abstract)
 type mutationOptions<'mutationVariables, 'mutationData, 'mutationError, 'unknown> = {
-  mutationKey: string,
+  mutationKey: array<string>,
   mutationFn: 'mutationVariables => Js.Promise.t<'mutationData>,
   @optional onMutate: 'mutationVariables => Js.Promise.t<mutationContext>,
   @optional
@@ -67,7 +67,7 @@ type mutationResult<'mutationVariables, 'mutationData, 'mutationError, 'unknown>
   reset: unit => unit,
 }
 
-@module("react-query")
+@module("@tanstack/react-query")
 external useMutation: mutationOptions<
   'mutationVariables,
   'mutationData,
