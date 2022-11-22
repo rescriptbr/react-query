@@ -8,8 +8,8 @@
   <a target="_blank" href="https://github.com/rescriptbr"> ReScript Brazil Community </a>
  </p>
  
-> :warning: This repo contains experimental bindings for [@tanstack/query](https://tanstack.com/query/v4) using the experimental optional fields API with ReScript@v10.
-If you're looking bindings to the React Query v3 click [here](https://github.com/rescriptbr/react-query/tree/v0.0.2).
+> :warning: This repo contains experimental bindings for [@tanstack/query](https://tanstack.com/query/v4) using the new optional fields API.
+If you're looking for bindings to the React Query v3 click [here](https://github.com/rescriptbr/react-query/tree/v0.0.2).
 
 ## Installation
 
@@ -33,9 +33,6 @@ Add the package to `bs-dependencies` in your `bsconfig.json`:
 ## Basic usage
 
 ```rescript
-/* 
-* Local bindings for fetch
-*/ 
 module Fetch = {
   type response
 
@@ -54,18 +51,15 @@ let fetchTodos = (_): Js.Promise.t<todo> => {
 module TodoItem = {
   @react.component
   let make = () => {
-    let queryResult = ReactQuery.useQuery(
-      ReactQuery.queryOptions(
-        ~queryFn=fetchTodos,
-        ~queryKey="todos",
-        /*
-         * Helper functions to convert unsupported TypeScript types in ReScript
-         * Check out the module ReactQuery_Utils.res
-         */
-        ~refetchOnWindowFocus=ReactQuery.refetchOnWindowFocus(#bool(false)),
-        (),
-      ),
-    )
+    let queryResult = ReactQuery.useQuery({
+      queryFn: fetchTodos,
+      queryKey: ["todos"],
+      /*
+       * Helper functions to convert unsupported TypeScript types in ReScript
+       * Check out the module ReactQuery_Utils.res
+       */
+      refetchOnWindowFocus: ReactQuery.refetchOnWindowFocus(#bool(false)),
+    })
 
     <div>
       {switch queryResult {
@@ -86,7 +80,10 @@ let client = ReactQuery.Provider.createClient()
 @react.component
 let make = () => {
   <ReactQuery.Provider client>
-    <div> <h1> {React.string("ReScript + React Query")} </h1> <TodoItem /> </div>
+    <div>
+      <h1> {React.string("ReScript + React Query")} </h1>
+      <TodoItem />
+    </div>
   </ReactQuery.Provider>
 }
 ```
