@@ -16,7 +16,7 @@ If you're looking for bindings to the React Query v3 click [here](https://github
 Install the package using npm/yarn:
 
 ```sh
-yarn add @rescriptbr/react-query react-query
+yarn add @rescriptbr/react-query @tanstack/react-query
 ```
 
 Add the package to `bs-dependencies` in your `bsconfig.json`:
