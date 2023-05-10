@@ -141,7 +141,7 @@ Usage:
 
 ```rescript
   let queryClient = useQueryClient()
-  queryClient.fetchQuery(fetchQueryOptions(~queryKey=["articles"], ~retryOnMount=true))
+  queryClient.fetchQuery({queryKey: ["articles"], retryOnMount: true})
 ```
 
 ### `useQuery`
