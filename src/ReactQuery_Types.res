@@ -32,14 +32,13 @@ type placeholderData<'queryData, 'queryResult> = [
   | #function(unit => option<'queryResult>)
 ]
 
-@deriving(abstract)
 type queryFilter<'queryKey> = {
-  @optional exact: bool,
-  @optional @as("type") type_: [#active | #inactive | #all],
-  @optional stale: bool,
-  @optional fetching: bool,
-  @optional predicate: query => bool,
-  @optional queryKey: 'queryKey,
+  exact?: bool,
+  @as("type") type_?: [#active | #inactive | #all],
+  stale?: bool,
+  fetching?: bool,
+  predicate?: query => bool,
+  queryKey?: 'queryKey,
 }
 
 type queryDataKeyOrFilter<'queryKey> = [#keys('queryKey) | #filters(queryFilter<'queryKey>)]
