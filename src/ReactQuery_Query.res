@@ -58,7 +58,11 @@ external useQuery: queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> 
   'queryData,
 > = "useQuery"
 
+type queriesOptions<'queryKey, 'queryData, 'queryError, 'pageParam> = {
+  queries: array<queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam>>,
+}
+
 @module("@tanstack/react-query")
-external useQueries: array<queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam>> => array<
+external useQueries: queriesOptions<'queryKey, 'queryData, 'queryError, 'pageParam> => array<
   queryResult<'queryError, 'queryData>,
 > = "useQueries"
