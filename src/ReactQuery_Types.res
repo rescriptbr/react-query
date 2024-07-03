@@ -25,7 +25,7 @@ type infiniteData<'queryData> = {
   pageParams: array<int>,
 }
 
-type queryStatus = [#loading | #success | #error | #initialData]
+type queryStatus = [#pending | #success | #error]
 
 type placeholderData<'queryData, 'queryResult> = [
   | #data('queryData)
