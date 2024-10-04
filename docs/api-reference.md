@@ -1,5 +1,7 @@
 # API Reference
+
 ---
+
 - [`Provider.createClient()`](#providercreateclient)
 - [`Provider.make()`](#providermake)
 - [`DevTools.make(...)`](#devtoolsmake)
@@ -9,7 +11,6 @@
 - [`queryOptions`](#queryoptions)
 - [`useMutation`](#usemutation)
 - [`mutationOptions`](#mutationoptions)
-
 
 ### `Provider.createClient()`
 
@@ -22,7 +23,9 @@ Definition:
     let createClient: unit => queryClientValue
   }
 ```
+
 Usage:
+
 ```rescript
   let client = Provider.createClient()
 ```
@@ -84,9 +87,11 @@ Usage:
 ```
 
 ### `queryClient`
+
 Type responsible for the return of the useQueryClient hook
 
 Definition:
+
 ```rescript
   type queryClient<'queryKey, 'queryData, 'queryError, 'pageParams> = {
     fetchQuery: fetchQueryOptions<'queryKey, 'queryData, 'queryError, 'pageParams> => Js.Promise.t<
@@ -167,9 +172,11 @@ Usage:
 ```
 
 ### `queryOptions`
+
 Type responsible for hold parameters for the useQuery hook
 
 Definition:
+
 ```rescript
   type queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> = {
     queryKey?: array<'queryKey>,
@@ -182,7 +189,7 @@ Definition:
     retryDelay?: ReactQuery_Types.retryDelayValue<'queryError>,
     staleTime?: ReactQuery_Types.timeValue,
     queryKeyHashFn?: array<'queryKey> => string,
-    refetchInterval?: ReactQuery_Types.refetchIntervalValue,
+    refetchInterval?: 'queryData => ReactQuery_Types.refetchIntervalValue,
     refetchIntervalInBackground?: bool,
     refetchOnMount?: ReactQuery_Types.boolOrAlwaysValue,
     refetchOnWindowFocus?: ReactQuery_Types.boolOrAlwaysValue,
@@ -214,7 +221,6 @@ Usage:
 
 ```
 
-
 ### `useMutation`
 
 The hook responsible to mutate a query, when update/create/delete anything
@@ -240,6 +246,7 @@ Usage:
 ```
 
 ### `mutationOptions`
+
 Type responsible for hold the parameters for the useMutation hook
 
 Definition:

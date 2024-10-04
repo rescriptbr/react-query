@@ -9,7 +9,7 @@ type queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> = {
   retryDelay?: ReactQuery_Types.retryDelayValue<'queryError>,
   staleTime?: ReactQuery_Types.timeValue,
   queryKeyHashFn?: array<'queryKey> => string,
-  refetchInterval?: ReactQuery_Types.refetchIntervalValue,
+  refetchInterval?: 'queryData => ReactQuery_Types.refetchIntervalValue,
   refetchIntervalInBackground?: bool,
   refetchOnMount?: ReactQuery_Types.boolOrAlwaysValue,
   refetchOnWindowFocus?: ReactQuery_Types.boolOrAlwaysValue,
@@ -21,7 +21,6 @@ type queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> = {
   onSettled?: ('queryData, 'queryError) => unit,
   select?: 'queryData => 'queryData,
   suspense?: bool,
-  keepPreviousData?: bool,
   structuralSharing?: bool,
   useErrorBoundary?: bool,
   initialData?: 'queryData => 'queryData,
@@ -39,7 +38,6 @@ type rec queryResult<'queryError, 'queryData> = {
   isLoading: bool,
   isLoadingError: bool,
   isPlaceholderData: bool,
-  isPreviousData: bool,
   isRefetchError: bool,
   isStale: bool,
   isSuccess: bool,
@@ -61,6 +59,9 @@ external useQuery: queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> 
 type queriesOptions<'queryKey, 'queryData, 'queryError, 'pageParam> = {
   queries: array<queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam>>,
 }
+
+@module("@tanstack/react-query")
+external keepPreviousData: 'queryData = "keepPreviousData"
 
 @module("@tanstack/react-query")
 external useQueries: queriesOptions<'queryKey, 'queryData, 'queryError, 'pageParam> => array<
