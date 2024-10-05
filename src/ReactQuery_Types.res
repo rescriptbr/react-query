@@ -7,6 +7,7 @@ type retryValue<'queryError>
 type retryDelayValue<'queryError>
 type queryDataKeyOrFilterValue<'queryKey>
 type placeholderDataValue
+type fetchMeta
 
 type queryFunctionContext<'queryKey, 'pageParam> = {
   queryKey: 'queryKey,
@@ -26,6 +27,21 @@ type infiniteData<'queryData> = {
 }
 
 type queryStatus = [#pending | #success | #error]
+
+type queryState<'queryData, 'queryError> = {
+  data: option<'queryData>,
+  dataUpdateCount: int,
+  dataUpdatedAt: int,
+  error: Js.Nullable.t<'queryError>,
+  errorUpdateCount: int,
+  errorUpdatedAt: int,
+  fetchFailureCount: int,
+  fetchMeta: fetchMeta,
+  isFetching: bool,
+  isInvalidated: bool,
+  isPaused: bool,
+  status: queryStatus,
+}
 
 type placeholderData<'queryData, 'queryResult> = [
   | #data('queryData)

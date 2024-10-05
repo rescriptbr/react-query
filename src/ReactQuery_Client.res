@@ -1,5 +1,4 @@
 type queryClientValue
-type fetchMeta
 
 type notifyOnChangePropsKeys = [
   | #error
@@ -101,21 +100,6 @@ type cancelQueriesOptions<'queryKey> = {
   filters: option<ReactQuery_Types.queryFilter<'queryKey>>,
 }
 
-type queryState<'queryData, 'queryError> = {
-  data: option<'queryData>,
-  dataUpdateCount: int,
-  dataUpdatedAt: int,
-  error: Js.Nullable.t<'queryError>,
-  errorUpdateCount: int,
-  errorUpdatedAt: int,
-  fetchFailureCount: int,
-  fetchMeta: fetchMeta,
-  isFetching: bool,
-  isInvalidated: bool,
-  isPaused: bool,
-  status: ReactQuery_Types.queryStatus,
-}
-
 type fetchQueryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> = {
   queryKey?: 'queryKey,
   queryFn?: ReactQuery_Types.queryFunctionContext<'queryKey, 'pageParam> => Js.Promise.t<
@@ -156,7 +140,7 @@ type queryClient<'queryKey, 'queryData, 'queryError, 'pageParams> = {
   getQueryState: (
     'queryKey,
     ReactQuery_Types.queryFilter<'queryKey>,
-  ) => queryState<'queryData, 'queryError>,
+  ) => ReactQuery_Types.queryState<'queryData, 'queryError>,
   setQueriesData: (
     ReactQuery_Types.queryDataKeyOrFilterValue<'queryKey>,
     option<'queryData> => 'queryData,

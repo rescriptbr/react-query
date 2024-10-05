@@ -1,3 +1,9 @@
+type query<'queryData, 'queryKey, 'queryError> = {
+  queryKey: array<'queryKey>,
+  state: ReactQuery_Types.queryState<'queryData, 'queryError>,
+  isFetchingOptimistic?: bool,
+}
+
 type queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> = {
   queryKey?: array<'queryKey>,
   queryFn?: ReactQuery_Types.queryFunctionContext<array<'queryKey>, 'pageParam> => Js.Promise.t<
@@ -9,7 +15,11 @@ type queryOptions<'queryKey, 'queryData, 'queryError, 'pageParam> = {
   retryDelay?: ReactQuery_Types.retryDelayValue<'queryError>,
   staleTime?: ReactQuery_Types.timeValue,
   queryKeyHashFn?: array<'queryKey> => string,
-  refetchInterval?: 'queryData => ReactQuery_Types.refetchIntervalValue,
+  refetchInterval?: query<
+    'queryData,
+    'queryData,
+    'queryError,
+  > => ReactQuery_Types.refetchIntervalValue,
   refetchIntervalInBackground?: bool,
   refetchOnMount?: ReactQuery_Types.boolOrAlwaysValue,
   refetchOnWindowFocus?: ReactQuery_Types.boolOrAlwaysValue,
